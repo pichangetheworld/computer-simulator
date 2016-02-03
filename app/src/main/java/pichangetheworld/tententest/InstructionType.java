@@ -20,6 +20,14 @@ public enum InstructionType {
                 return "PUSH";
             case PRINT:
                 return "PRINT";
+            case STOP:
+                return "STOP";
+            case RET:
+                return "RET";
+            case CALL:
+                return "CALL";
+            case MULT:
+                return "MULT";
             default:
                 return "Unknown Instruction";
         }
