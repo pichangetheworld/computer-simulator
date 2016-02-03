@@ -7,7 +7,11 @@ package pichangetheworld.tententest;
  */
 public enum InstructionType {
     PUSH,
-    PRINT;
+    PRINT,
+    STOP,
+    RET,
+    CALL,
+    MULT;
 
     @Override
     public String toString() {

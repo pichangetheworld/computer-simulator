@@ -3,14 +3,17 @@ package pichangetheworld.tententest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,17 +24,55 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.stack)
     ListView instructionsListView;
 
-    @OnClick(R.id.push)
-    public void addPushItemToStack() {
-        Log.d("TENTEN", "Adding push item to stack");
-        computer.addInstruction(Instruction.createInstance(InstructionType.PUSH, 4));
-        adapter.notifyDataSetChanged();
-    }
+    @Bind(R.id.arg)
+    EditText argument;
 
-    @OnClick(R.id.print)
-    public void addPrintItemToStack() {
-        Log.d("TENTEN", "Adding print item to stack");
-        computer.addInstruction(Instruction.createInstance(InstructionType.PRINT, 0));
+    @OnClick({R.id.push, R.id.print, R.id.stop, R.id.ret, R.id.call, R.id.mult})
+    public void addItemToStack(View button) {
+        String arg = argument.getText().toString();
+        int argVal;
+
+        switch (button.getId()) {
+            case R.id.push:
+                if (TextUtils.isEmpty(arg)) {
+                    Toast.makeText(this, "PUSH needs an argument", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                argVal = Integer.parseInt(arg);
+                Log.d("TENTEN", "Adding push item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.PUSH, argVal));
+
+                // clear after creating
+                argument.setText("");
+                break;
+            case R.id.print:
+                Log.d("TENTEN", "Adding print item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.PRINT, 0));
+                break;
+            case R.id.stop:
+                Log.d("TENTEN", "Adding stop item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.STOP, 0));
+                break;
+            case R.id.ret:
+                Log.d("TENTEN", "Adding ret item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.RET, 0));
+                break;
+            case R.id.call:
+                if (TextUtils.isEmpty(arg)) {
+                    Toast.makeText(this, "CALL needs an argument", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                argVal = Integer.parseInt(arg);
+                Log.d("TENTEN", "Adding call item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.CALL, argVal));
+
+                // clear after creating
+                argument.setText("");
+            case R.id.mult:
+                Log.d("TENTEN", "Adding mult item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.MULT, 0));
+                break;
+        }
         adapter.notifyDataSetChanged();
     }
 
