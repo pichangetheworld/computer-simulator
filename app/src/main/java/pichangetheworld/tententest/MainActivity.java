@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // clear after creating
                 argument.setText("");
+                break;
             case R.id.mult:
                 Log.d("TENTEN", "Adding mult item to stack");
                 computer.addInstruction(Instruction.createInstance(InstructionType.MULT, 0));
