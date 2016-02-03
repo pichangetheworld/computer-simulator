@@ -19,6 +19,7 @@ public class Instruction {
     public String getInstructionString() {
         switch (instruction) {
             case PUSH:
+            case CALL:
                 return instruction.toString() + " " + argument;
             case PRINT:
             default:
