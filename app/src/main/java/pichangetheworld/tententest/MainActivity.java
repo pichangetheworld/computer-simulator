@@ -12,9 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,19 +24,21 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.push)
     public void addPushItemToStack() {
         Log.d("TENTEN", "Adding push item to stack");
-        instructions.add(Instruction.createInstance(InstructionType.PUSH, 4));
+        computer.addInstruction(Instruction.createInstance(InstructionType.PUSH, 4));
         adapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.print)
     public void addPrintItemToStack() {
         Log.d("TENTEN", "Adding print item to stack");
-        instructions.add(Instruction.createInstance(InstructionType.PRINT, 0));
+        computer.addInstruction(Instruction.createInstance(InstructionType.PRINT, 0));
         adapter.notifyDataSetChanged();
     }
 
-    private List<Instruction> instructions;
+    private Computer computer;
     private StackAdapter adapter;
+
+    private int numAddresses = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        instructions = new ArrayList<>();
-        adapter = new StackAdapter(this, instructions);
+        computer = new Computer(numAddresses);
+        adapter = new StackAdapter(this, computer.getInstructions());
         instructionsListView.setAdapter(adapter);
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {
 
-        public StackAdapter(Context context, List<Instruction> instructions) {
+        public StackAdapter(Context context, Instruction[] instructions) {
             super(context, android.R.layout.simple_list_item_1, instructions);
         }
 
@@ -96,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = super.getView(position, convertView, parent);
 
-            TextView textView = (TextView) v.findViewById(android.R.id.text1);
-            textView.setText(getItem(position).getInstructionString());
+            if (getItem(position) != null) {
+                TextView textView = (TextView) v.findViewById(android.R.id.text1);
+                textView.setText(getItem(position).getInstructionString());
+            }
 
             return v;
         }

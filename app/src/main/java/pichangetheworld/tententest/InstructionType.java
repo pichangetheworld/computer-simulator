@@ -1,7 +1,7 @@
 package pichangetheworld.tententest;
 
 /**
- * Eminent Domain AS
+ * Tenten Assignment
  * Author: pchan
  * Date: 04/02/16
  */
