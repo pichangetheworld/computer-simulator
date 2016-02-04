@@ -101,12 +101,24 @@ public class MainActivity extends AppCompatActivity {
 
         // clear after setting
         argument.setText("");
+        adapter.notifyDataSetChanged();
     }
+
+    @OnClick(R.id.execute)
+    public void execute() {
+        computer.executeInstruction();
+        adapter.notifyDataSetChanged();
+
+        results.setText(computer.getOutput());
+    }
+
+    @Bind(R.id.results)
+    TextView results;
 
     private Computer computer;
     private StackAdapter adapter;
 
-    private int numAddresses = 10;
+    private int numAddresses = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         computer = new Computer(numAddresses);
-        adapter = new StackAdapter(this, computer.getInstructions());
+        adapter = new StackAdapter(this, computer);
         instructionsListView.setAdapter(adapter);
         // scroll to bottom, i.e. beginning of stack
         instructionsListView.setSelection(adapter.getCount() - 1);
@@ -144,10 +156,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {
+        private Computer computer;
         private LayoutInflater layoutInflater;
 
-        public StackAdapter(Context context, Instruction[] instructions) {
-            super(context, 0, instructions);
+        public StackAdapter(Context context, Computer computer) {
+            super(context, 0, computer.getInstructions());
+            this.computer = computer;
+
             layoutInflater = LayoutInflater.from(context);
         }
 
@@ -169,6 +184,12 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = (TextView) v.findViewById(R.id.text1);
             if (getItem(rpos) != null) {
                 textView.setText(getItem(rpos).getInstructionString());
+            }
+
+            if (rpos == computer.getCurrentAddress()) {
+                v.setBackgroundColor(getContext().getResources().getColor(R.color.currentInstructionBackground));
+            } else {
+                v.setBackgroundColor(getContext().getResources().getColor(android.R.color.white));
             }
 
             return v;

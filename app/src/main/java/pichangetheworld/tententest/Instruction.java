@@ -6,8 +6,8 @@ package pichangetheworld.tententest;
  * Date: 04/02/16
  */
 public class Instruction {
-    private InstructionType instruction;
-    private int argument;
+    public InstructionType instruction;
+    public int argument;
 
     public static Instruction createInstance(InstructionType instruction, int arg) {
         Instruction i = new Instruction();
