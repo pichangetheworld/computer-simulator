@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,17 +117,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {
+        private LayoutInflater layoutInflater;
 
         public StackAdapter(Context context, Instruction[] instructions) {
-            super(context, android.R.layout.simple_list_item_1, instructions);
+            super(context, 0, instructions);
+            layoutInflater = LayoutInflater.from(context);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v = super.getView(position, convertView, parent);
+            View v;
+            if (convertView == null) {
+                v = layoutInflater.inflate(R.layout.instruction_view, parent, false);
+            } else {
+                v = convertView;
+            }
 
+            TextView addressView = (TextView) v.findViewById(R.id.address);
+            addressView.setText(String.valueOf(position));
+
+            TextView textView = (TextView) v.findViewById(R.id.text1);
             if (getItem(position) != null) {
-                TextView textView = (TextView) v.findViewById(android.R.id.text1);
                 textView.setText(getItem(position).getInstructionString());
             }
 
