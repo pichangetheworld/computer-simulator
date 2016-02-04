@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 computer.addInstruction(Instruction.createInstance(InstructionType.MULT, 0));
                 break;
         }
-        adapter.notifyDataSetChanged();
+        updateProgramCounter();
     }
 
     @OnClick(R.id.set_address)
@@ -96,18 +94,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // scroll to current address
-        instructionsListView.setSelection(adapter.getCount() - 1 - argVal);
         computer.setCurrentAddress(argVal);
+        updateProgramCounter();
 
         // clear after setting
         argument.setText("");
-        adapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.execute)
     public void execute() {
+        results.setVisibility(View.VISIBLE);
+
+        // TODO: hide keyboard
+
         computer.executeInstruction();
-        adapter.notifyDataSetChanged();
+        updateProgramCounter();
 
         results.setText(computer.getOutput());
     }
@@ -129,30 +130,24 @@ public class MainActivity extends AppCompatActivity {
         computer = new Computer(numAddresses);
         adapter = new StackAdapter(this, computer);
         instructionsListView.setAdapter(adapter);
+
+        argument.requestFocus();
+
         // scroll to bottom, i.e. beginning of stack
-        instructionsListView.setSelection(adapter.getCount() - 1);
+        updateProgramCounter();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private void updateProgramCounter() {
+        adapter.notifyDataSetChanged();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        instructionsListView.post(new Runnable() {
+            @Override
+            public void run() {
+                int nextInstruction = computer.getCurrentAddress();
+                int rpos = adapter.getCount() - 1 - nextInstruction;
+                instructionsListView.setSelection(rpos);
+            }
+        });
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {
@@ -184,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
             TextView textView = (TextView) v.findViewById(R.id.text1);
             if (getItem(rpos) != null) {
                 textView.setText(getItem(rpos).getInstructionString());
+            } else {
+                textView.setText("");
             }
 
             if (rpos == computer.getCurrentAddress()) {

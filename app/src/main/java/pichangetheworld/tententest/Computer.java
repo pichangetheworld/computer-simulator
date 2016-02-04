@@ -61,10 +61,16 @@ public class Computer {
             case PUSH:
                 res = i.argument;
                 stack.push(res);
+
+                // increment currentAddress
+                currentAddress++;
                 break;
             case PRINT:
                 res = stack.pop();
                 print(res);
+
+                // increment currentAddress
+                currentAddress++;
                 break;
             case STOP:
                 stop();
@@ -82,11 +88,11 @@ public class Computer {
                 int res2 = stack.pop();
                 res = res1 * res2;
                 stack.push(res);
+
+                // increment currentAddress
+                currentAddress++;
                 break;
         }
-
-        // increment currentAddress
-        currentAddress++;
     }
 
     private void print(int p) {
