@@ -78,6 +78,31 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    @OnClick(R.id.set_address)
+    public void setAddress() {
+        String arg = argument.getText().toString();
+
+        if (TextUtils.isEmpty(arg)) {
+            Toast.makeText(this, "SET ADDRESS needs an argument", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int argVal = Integer.parseInt(arg);
+        if (argVal < 0 || argVal >= adapter.getCount()) {
+            if (TextUtils.isEmpty(arg)) {
+                Toast.makeText(this, "This address is out of bounds.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        // scroll to current address
+        instructionsListView.setSelection(adapter.getCount() - 1 - argVal);
+        computer.setCurrentAddress(argVal);
+
+        // clear after setting
+        argument.setText("");
+    }
+
     private Computer computer;
     private StackAdapter adapter;
 
@@ -92,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         computer = new Computer(numAddresses);
         adapter = new StackAdapter(this, computer.getInstructions());
         instructionsListView.setAdapter(adapter);
+        // scroll to bottom, i.e. beginning of stack
+        instructionsListView.setSelection(adapter.getCount() - 1);
     }
 
     @Override
@@ -133,12 +160,15 @@ public class MainActivity extends AppCompatActivity {
                 v = convertView;
             }
 
+            // stack is displayed from bottom to top
+            int rpos = getCount() - position - 1;
+
             TextView addressView = (TextView) v.findViewById(R.id.address);
-            addressView.setText(String.valueOf(position));
+            addressView.setText(String.valueOf(rpos));
 
             TextView textView = (TextView) v.findViewById(R.id.text1);
-            if (getItem(position) != null) {
-                textView.setText(getItem(position).getInstructionString());
+            if (getItem(rpos) != null) {
+                textView.setText(getItem(rpos).getInstructionString());
             }
 
             return v;

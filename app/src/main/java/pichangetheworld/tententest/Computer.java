@@ -1,8 +1,5 @@
 package pichangetheworld.tententest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Tenten Assignment
  * Author: pchan
@@ -26,5 +23,15 @@ public class Computer {
             instructions[currentAddress] = instruction;
             currentAddress++;
         }
+    }
+
+    public void setCurrentAddress(int currentAddress) {
+        this.currentAddress = currentAddress;
+    }
+
+    // here we go
+    public void executeInstruction() {
+        // call action at currentAddress
+        // increment currentAddress
     }
 }
