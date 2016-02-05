@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void execute() {
         results.setVisibility(View.VISIBLE);
+        isActive = true;
 
         // hide keyboard
         View focusedView = getCurrentFocus();
@@ -130,13 +131,33 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public List<Integer> executeStep() {
-        computer.executeInstruction();
+    private boolean isActive = false;
+    public boolean executeStep() {
+        if (isActive) {
+            isActive = computer.executeInstruction();
+            updateProgramCounter();
+
+            results.setText(computer.getOutput());
+        } else {
+            reset();
+        }
+        return isActive;
+    }
+
+    public List<Integer> getCurrentStackState() {
+        return computer.getCurrentStackState();
+    }
+
+    public void reset() {
+        computer.reset();
         updateProgramCounter();
 
         results.setText(computer.getOutput());
 
-        return computer.getCurrentStackState();
+        results.setVisibility(View.GONE);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.right_side, ButtonsFragment.newInstance())
+                .commit();
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {

@@ -48,10 +48,11 @@ public class Computer {
     }
 
     // here we go
-    public void executeInstruction() {
+    // returns: whether the computer is still active or not
+    public boolean executeInstruction() {
         if (currentAddress < 0 || currentAddress >= instructions.length ||
                 instructions[currentAddress] == null) {
-            return;
+            return false;
         }
 
         Instruction i = instructions[currentAddress];
@@ -75,7 +76,7 @@ public class Computer {
                 break;
             case STOP:
                 stop();
-                break;
+                return false;
             case RET:
                 res = stack.pop();
                 currentAddress = res;
@@ -94,6 +95,7 @@ public class Computer {
                 currentAddress++;
                 break;
         }
+        return true;
     }
 
     private void print(int p) {
@@ -102,6 +104,17 @@ public class Computer {
 
     private void stop() {
         currentAddress = -1;
+    }
+
+    public void reset() {
+        for (int i = 0; i < instructions.length; ++i) {
+            instructions[i] = null;
+        }
+        currentAddress = 0;
+
+        // reset output
+        output.setLength(0);
+        output.append("RESULTS:").append(System.getProperty("line.separator"));
     }
 
     public String getOutput() {

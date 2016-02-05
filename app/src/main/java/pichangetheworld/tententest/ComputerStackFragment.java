@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,11 +28,18 @@ public class ComputerStackFragment extends Fragment {
     ListView listView;
 
     @OnClick(R.id.next_button)
-    public void stepExecute() {
-        List<Integer> data = ((MainActivity) getActivity()).executeStep();
+    public void stepExecute(Button button) {
+        boolean isActive = ((MainActivity) getActivity()).executeStep();
+        List<Integer> data = ((MainActivity) getActivity()).getCurrentStackState();
 
         adapter.clear();
         adapter.addAll(data);
+
+        if (isActive) {
+            button.setText("NEXT");
+        } else {
+            button.setText("RESTART");
+        }
     }
 
     private ComputerStackAdapter adapter;
