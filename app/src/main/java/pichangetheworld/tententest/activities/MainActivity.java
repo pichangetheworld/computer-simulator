@@ -1,4 +1,4 @@
-package pichangetheworld.tententest;
+package pichangetheworld.tententest.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,18 +18,26 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import pichangetheworld.tententest.models.Instruction;
+import pichangetheworld.tententest.models.InstructionType;
+import pichangetheworld.tententest.R;
+import pichangetheworld.tententest.computer.Computer;
+import pichangetheworld.tententest.fragments.ButtonsFragment;
+import pichangetheworld.tententest.fragments.ComputerStackFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static final String EXTRA_NUM_ADDRESSES = "numAddresses";
 
     @Bind(R.id.stack)
-    ListView instructionsListView;
+    private ListView instructionsListView;
 
     @Bind(R.id.results)
-    TextView results;
+    private TextView results;
 
     private Computer computer;
     private StackAdapter adapter;
+
+    private boolean isActive = false;
 
     public static Intent createIntent(Context context, int numAddresses) {
         Intent i = new Intent(context, MainActivity.class);
@@ -131,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private boolean isActive = false;
     public boolean executeStep() {
         if (isActive) {
             isActive = computer.executeInstruction();
@@ -148,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         return computer.getCurrentStackState();
     }
 
-    public void reset() {
+    private void reset() {
         computer.reset();
         updateProgramCounter();
 
@@ -161,8 +168,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {
-        private Computer computer;
-        private LayoutInflater layoutInflater;
+        private final Computer computer;
+        private final LayoutInflater layoutInflater;
 
         public StackAdapter(Context context, Computer computer) {
             super(context, 0, computer.getInstructions());

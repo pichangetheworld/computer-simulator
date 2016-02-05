@@ -1,7 +1,9 @@
-package pichangetheworld.tententest;
+package pichangetheworld.tententest.computer;
 
 import java.util.List;
 import java.util.Stack;
+
+import pichangetheworld.tententest.models.Instruction;
 
 /**
  * Tenten Assignment
@@ -9,12 +11,12 @@ import java.util.Stack;
  * Date: 04/02/16
  */
 public class Computer {
-    private Instruction[] instructions;
+    private final Instruction[] instructions;
     private int currentAddress;
 
-    private Stack<Integer> stack;
+    private final Stack<Integer> stack;
 
-    private StringBuilder output;
+    private final StringBuilder output;
 
     public Computer(int numAddresses) {
         instructions = new Instruction[numAddresses];
@@ -111,6 +113,8 @@ public class Computer {
             instructions[i] = null;
         }
         currentAddress = 0;
+
+        stack.clear();
 
         // reset output
         output.setLength(0);

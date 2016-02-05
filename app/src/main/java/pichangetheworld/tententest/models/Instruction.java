@@ -1,4 +1,4 @@
-package pichangetheworld.tententest;
+package pichangetheworld.tententest.models;
 
 /**
  * Tenten Assignment

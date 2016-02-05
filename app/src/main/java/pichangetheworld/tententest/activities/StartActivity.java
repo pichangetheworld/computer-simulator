@@ -1,14 +1,15 @@
-package pichangetheworld.tententest;
+package pichangetheworld.tententest.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import pichangetheworld.tententest.R;
 
 /**
  * Tenten Assignment
@@ -17,16 +18,10 @@ import butterknife.ButterKnife;
  */
 public class StartActivity extends Activity {
     @Bind(R.id.computer_size)
-    EditText computerSize;
+    private EditText computerSize;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-        ButterKnife.bind(this);
-    }
-
-    public void start(View v) {
+    @OnClick(R.id.start)
+    public void start() {
         String size = computerSize.getText().toString();
         if (TextUtils.isEmpty(size)) {
             showErrorMessage();
@@ -45,6 +40,13 @@ public class StartActivity extends Activity {
             e.printStackTrace();
             showErrorMessage();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
+        ButterKnife.bind(this);
     }
 
     private void showErrorMessage() {

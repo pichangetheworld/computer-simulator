@@ -1,4 +1,4 @@
-package pichangetheworld.tententest;
+package pichangetheworld.tententest.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pichangetheworld.tententest.activities.MainActivity;
+import pichangetheworld.tententest.R;
 
 /**
  * Tenten Assignment
@@ -21,7 +23,7 @@ import butterknife.OnClick;
  */
 public class ButtonsFragment extends Fragment {
     @Bind(R.id.arg)
-    EditText argument;
+    private EditText argument;
 
     @OnClick({R.id.push, R.id.print, R.id.stop, R.id.ret, R.id.call, R.id.mult})
     public void addItemToStack(View button) {

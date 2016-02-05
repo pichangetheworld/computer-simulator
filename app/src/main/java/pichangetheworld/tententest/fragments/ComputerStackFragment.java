@@ -1,4 +1,4 @@
-package pichangetheworld.tententest;
+package pichangetheworld.tententest.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pichangetheworld.tententest.activities.MainActivity;
+import pichangetheworld.tententest.R;
 
 /**
  * Tenten Assignment
@@ -25,7 +27,7 @@ import butterknife.OnClick;
  */
 public class ComputerStackFragment extends Fragment {
     @Bind(R.id.computer_stack)
-    ListView listView;
+    private ListView listView;
 
     @OnClick(R.id.next_button)
     public void stepExecute(Button button) {
