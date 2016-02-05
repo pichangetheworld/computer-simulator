@@ -18,7 +18,7 @@ import pichangetheworld.tententest.R;
  */
 public class StartActivity extends Activity {
     @Bind(R.id.computer_size)
-    private EditText computerSize;
+    EditText computerSize;
 
     @OnClick(R.id.start)
     public void start() {

@@ -27,7 +27,7 @@ import pichangetheworld.tententest.R;
  */
 public class ComputerStackFragment extends Fragment {
     @Bind(R.id.computer_stack)
-    private ListView listView;
+    ListView listView;
 
     @OnClick(R.id.next_button)
     public void stepExecute(Button button) {

@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String EXTRA_NUM_ADDRESSES = "numAddresses";
 
     @Bind(R.id.stack)
-    private ListView instructionsListView;
+    ListView instructionsListView;
 
     @Bind(R.id.results)
-    private TextView results;
+    TextView results;
 
     private Computer computer;
     private StackAdapter adapter;
@@ -68,14 +68,15 @@ public class MainActivity extends AppCompatActivity {
     private void updateProgramCounter() {
         adapter.notifyDataSetChanged();
 
-        instructionsListView.post(new Runnable() {
+        // Delay one second because sometimes the keyboard is appearing
+        instructionsListView.postDelayed(new Runnable() {
             @Override
             public void run() {
                 int nextInstruction = computer.getCurrentAddress();
                 int rpos = adapter.getCount() - 1 - nextInstruction;
                 instructionsListView.setSelection(rpos);
             }
-        });
+        }, 500);
     }
 
     // functions

@@ -23,7 +23,7 @@ import pichangetheworld.tententest.R;
  */
 public class ButtonsFragment extends Fragment {
     @Bind(R.id.arg)
-    private EditText argument;
+    EditText argument;
 
     @OnClick({R.id.push, R.id.print, R.id.stop, R.id.ret, R.id.call, R.id.mult})
     public void addItemToStack(View button) {
