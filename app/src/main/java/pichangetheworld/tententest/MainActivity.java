@@ -3,115 +3,21 @@ package pichangetheworld.tententest;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
-
     @Bind(R.id.stack)
     ListView instructionsListView;
-
-    @Bind(R.id.arg)
-    EditText argument;
-
-    @OnClick({R.id.push, R.id.print, R.id.stop, R.id.ret, R.id.call, R.id.mult})
-    public void addItemToStack(View button) {
-        String arg = argument.getText().toString();
-        int argVal;
-
-        switch (button.getId()) {
-            case R.id.push:
-                if (TextUtils.isEmpty(arg)) {
-                    Toast.makeText(this, "PUSH needs an argument", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                argVal = Integer.parseInt(arg);
-                Log.d("TENTEN", "Adding push item to stack");
-                computer.addInstruction(Instruction.createInstance(InstructionType.PUSH, argVal));
-
-                // clear after creating
-                argument.setText("");
-                break;
-            case R.id.print:
-                Log.d("TENTEN", "Adding print item to stack");
-                computer.addInstruction(Instruction.createInstance(InstructionType.PRINT, 0));
-                break;
-            case R.id.stop:
-                Log.d("TENTEN", "Adding stop item to stack");
-                computer.addInstruction(Instruction.createInstance(InstructionType.STOP, 0));
-                break;
-            case R.id.ret:
-                Log.d("TENTEN", "Adding ret item to stack");
-                computer.addInstruction(Instruction.createInstance(InstructionType.RET, 0));
-                break;
-            case R.id.call:
-                if (TextUtils.isEmpty(arg)) {
-                    Toast.makeText(this, "CALL needs an argument", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                argVal = Integer.parseInt(arg);
-                Log.d("TENTEN", "Adding call item to stack");
-                computer.addInstruction(Instruction.createInstance(InstructionType.CALL, argVal));
-
-                // clear after creating
-                argument.setText("");
-                break;
-            case R.id.mult:
-                Log.d("TENTEN", "Adding mult item to stack");
-                computer.addInstruction(Instruction.createInstance(InstructionType.MULT, 0));
-                break;
-        }
-        updateProgramCounter();
-    }
-
-    @OnClick(R.id.set_address)
-    public void setAddress() {
-        String arg = argument.getText().toString();
-
-        if (TextUtils.isEmpty(arg)) {
-            Toast.makeText(this, "SET ADDRESS needs an argument", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int argVal = Integer.parseInt(arg);
-        if (argVal < 0 || argVal >= adapter.getCount()) {
-            if (TextUtils.isEmpty(arg)) {
-                Toast.makeText(this, "This address is out of bounds.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        // scroll to current address
-        computer.setCurrentAddress(argVal);
-        updateProgramCounter();
-
-        // clear after setting
-        argument.setText("");
-    }
-
-    @OnClick(R.id.execute)
-    public void execute() {
-        results.setVisibility(View.VISIBLE);
-
-        // TODO: hide keyboard
-
-        computer.executeInstruction();
-        updateProgramCounter();
-
-        results.setText(computer.getOutput());
-    }
 
     @Bind(R.id.results)
     TextView results;
@@ -131,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
         adapter = new StackAdapter(this, computer);
         instructionsListView.setAdapter(adapter);
 
-        argument.requestFocus();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.right_side, ButtonsFragment.newInstance())
+                .commit();
 
         // scroll to bottom, i.e. beginning of stack
         updateProgramCounter();
@@ -148,6 +56,62 @@ public class MainActivity extends AppCompatActivity {
                 instructionsListView.setSelection(rpos);
             }
         });
+    }
+
+    // functions
+    public void addItemToStack(int buttonId, String arg) {
+        int argVal;
+        switch (buttonId) {
+            case R.id.push:
+                argVal = Integer.parseInt(arg);
+                Log.d("TENTEN", "Adding push item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.PUSH, argVal));
+                break;
+            case R.id.print:
+                Log.d("TENTEN", "Adding print item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.PRINT, 0));
+                break;
+            case R.id.stop:
+                Log.d("TENTEN", "Adding stop item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.STOP, 0));
+                break;
+            case R.id.ret:
+                Log.d("TENTEN", "Adding ret item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.RET, 0));
+                break;
+            case R.id.call:
+                argVal = Integer.parseInt(arg);
+                Log.d("TENTEN", "Adding call item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.CALL, argVal));
+                break;
+            case R.id.mult:
+                Log.d("TENTEN", "Adding mult item to stack");
+                computer.addInstruction(Instruction.createInstance(InstructionType.MULT, 0));
+                break;
+        }
+        updateProgramCounter();
+    }
+
+    public void setAddress(int address) {
+        if (address < 0 || address >= adapter.getCount()) {
+            Toast.makeText(this, "This address is out of bounds.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // scroll to current address
+        computer.setCurrentAddress(address);
+        updateProgramCounter();
+    }
+
+    public void execute() {
+        results.setVisibility(View.VISIBLE);
+
+        // TODO: hide keyboard
+
+        computer.executeInstruction();
+        updateProgramCounter();
+
+        results.setText(computer.getOutput());
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {

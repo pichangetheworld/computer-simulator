@@ -8,8 +8,9 @@
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp" />
+        android:layout_margin="6dp"
+        android:gravity="center"
+        android:minWidth="12dp" />
 
     <TextView
         android:id="@+id/text1"
