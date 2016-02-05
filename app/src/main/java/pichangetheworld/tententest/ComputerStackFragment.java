@@ -36,9 +36,9 @@ public class ComputerStackFragment extends Fragment {
         adapter.addAll(data);
 
         if (isActive) {
-            button.setText("NEXT");
+            button.setText(R.string.next);
         } else {
-            button.setText("RESTART");
+            button.setText(R.string.restart);
         }
     }
 

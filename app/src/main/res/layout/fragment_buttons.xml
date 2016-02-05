@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="12dp"
+    android:padding="12dp"
     android:paddingTop="32dp">
 
     <LinearLayout
@@ -17,14 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="PUSH" />
+            android:text="@string/push" />
 
         <Button
             android:id="@+id/print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="PRINT" />
+            android:text="@string/print" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,14 +38,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="STOP" />
+            android:text="@string/stop" />
 
         <Button
             android:id="@+id/ret"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="RET" />
+            android:text="@string/ret" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,14 +59,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="CALL" />
+            android:text="@string/call" />
 
         <Button
             android:id="@+id/mult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="MULT" />
+            android:text="@string/mult" />
     </LinearLayout>
 
     <EditText
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:hint="arg"
+        android:hint="@string/argument"
         android:inputType="number" />
 
     <Button
@@ -83,13 +83,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="SET_ADDRESS" />
+        android:text="@string/set_address" />
 
     <Button
         android:id="@+id/execute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="EXECUTE" />
+        android:text="@string/execute" />
 
 </LinearLayout>

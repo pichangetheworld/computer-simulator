@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
-        android:text="NEXT" />
+        android:text="@string/next" />
 
     <ListView
         android:id="@+id/computer_stack"

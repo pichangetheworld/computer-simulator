@@ -1,4 +1,30 @@
 <resources>
-    <string name="app_name">TentenTest</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Computer Simulation</string>
+
+    <!--EditText hints-->
+    <string name="computer_size">Computer Size:</string>
+    <string name="argument">arg</string>
+
+    <!--Button names-->
+    <string name="next">NEXT</string>
+    <string name="start">START</string>
+    <string name="restart">RESTART</string>
+
+    <!--Defaults-->
+    <string name="hundred">100</string>
+
+    <!--Results-->
+    <string name="results">RESULTS:</string>
+
+    <!--Instructions-->
+    <string name="push">PUSH</string>
+    <string name="print">PRINT</string>
+    <string name="stop">STOP</string>
+    <string name="ret">RET</string>
+    <string name="call">CALL</string>
+    <string name="mult">MULT</string>
+
+    <!--Commands-->
+    <string name="set_address">SET_ADDRESS</string>
+    <string name="execute">EXECUTE</string>
 </resources>
