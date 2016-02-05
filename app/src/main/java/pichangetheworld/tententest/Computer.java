@@ -1,5 +1,6 @@
 package pichangetheworld.tententest;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -50,7 +51,7 @@ public class Computer {
     public void executeInstruction() {
         if (currentAddress < 0 || currentAddress >= instructions.length ||
                 instructions[currentAddress] == null) {
-            currentAddress = 0;
+            return;
         }
 
         Instruction i = instructions[currentAddress];
@@ -105,5 +106,9 @@ public class Computer {
 
     public String getOutput() {
         return output.toString();
+    }
+
+    public List<Integer> getCurrentStackState() {
+        return stack;
     }
 }

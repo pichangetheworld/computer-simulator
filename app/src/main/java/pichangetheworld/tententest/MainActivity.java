@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -106,12 +109,25 @@ public class MainActivity extends AppCompatActivity {
     public void execute() {
         results.setVisibility(View.VISIBLE);
 
-        // TODO: hide keyboard
+        // hide keyboard
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
+        }
 
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.right_side, ComputerStackFragment.newInstance())
+                .commit();
+    }
+
+    public List<Integer> executeStep() {
         computer.executeInstruction();
         updateProgramCounter();
 
         results.setText(computer.getOutput());
+
+        return computer.getCurrentStackState();
     }
 
     private static class StackAdapter extends ArrayAdapter<Instruction> {
