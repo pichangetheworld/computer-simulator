@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         adapter = new StackAdapter(this, computer);
         instructionsListView.setAdapter(adapter);
 
+        // to keep the listview at the bottom even when the keyboard appears
+        instructionsListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_NORMAL);
+        instructionsListView.setStackFromBottom(true);
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.right_side, ButtonsFragment.newInstance())
                 .commit();
@@ -69,14 +74,14 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         // Delay one second because sometimes the keyboard is appearing
-        instructionsListView.postDelayed(new Runnable() {
+        instructionsListView.post(new Runnable() {
             @Override
             public void run() {
                 int nextInstruction = computer.getCurrentAddress();
                 int rpos = adapter.getCount() - 1 - nextInstruction;
                 instructionsListView.setSelection(rpos);
             }
-        }, 500);
+        });
     }
 
     // functions
