@@ -1,6 +1,7 @@
 package pichangetheworld.tententest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +20,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String EXTRA_NUM_ADDRESSES = "numAddresses";
+
     @Bind(R.id.stack)
     ListView instructionsListView;
 
@@ -28,13 +31,19 @@ public class MainActivity extends AppCompatActivity {
     private Computer computer;
     private StackAdapter adapter;
 
-    private int numAddresses = 100;
+    public static Intent createIntent(Context context, int numAddresses) {
+        Intent i = new Intent(context, MainActivity.class);
+        i.putExtra(EXTRA_NUM_ADDRESSES, numAddresses);
+        return i;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        int numAddresses = getIntent().getIntExtra(EXTRA_NUM_ADDRESSES, 100);
 
         computer = new Computer(numAddresses);
         adapter = new StackAdapter(this, computer);
